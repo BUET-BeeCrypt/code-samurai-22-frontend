@@ -2,9 +2,28 @@ import { useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import Visualization from "./visualization/Visualization";
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
 
 export default function App() {
-    const [userType, setUserType] = useState(null);
+    
+    let userTypeStorage = null;
+
+    if (localStorage.getItem('token')) {
+        userTypeStorage = parseJwt(localStorage.getItem('token')).role;
+    }
+
+
+    const [userType, setUserType] = useState(userTypeStorage);
     const [selectedTab, setSelectedTab] = useState("home");
 
     const changeTab = e => {
@@ -58,6 +77,7 @@ export default function App() {
                             </>
                         }
 
+
                         {/* <Nav.Link href="#" onClick={changeTab} data-tab='verify'>
                             Verify Document
                         </Nav.Link> */}
@@ -65,7 +85,7 @@ export default function App() {
                 </Container>
             </Navbar>
 
-            <Container className='p-4 my-4'>
+            <Container fluid>
                 {userType === null && <>
                     {selectedTab === "home" && <>
                         <Login />
@@ -73,6 +93,12 @@ export default function App() {
 
                     {selectedTab === "register" && <>
                         <Register />
+                    </>}
+                </>}
+
+                {userType === "APP" && <>
+                    {selectedTab === "home" && <>
+                        <Visualization />
                     </>}
                 </>}
             </Container>
