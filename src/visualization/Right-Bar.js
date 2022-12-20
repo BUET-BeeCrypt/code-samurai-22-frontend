@@ -3,7 +3,7 @@ import { Badge, Card, ProgressBar } from 'react-bootstrap'
 export default function RightBar({ project }) {
     if (!project)
         return <> Select a project to see details </>
-    const { name,location,latitude,longitude,exec,cost,timespan,project_id,goal,start_date,completion,actual_cost } = project
+    const { name,location,latitude,longitude,exec,cost,timespan,project_id,goal,start_date,completion,actual_cost, agency } = project
     return <>
         <div className="position-relative">
             <span className="d-block pb-2 mb-0 h6 text-uppercase text-info font-weight-bold">
@@ -12,7 +12,7 @@ export default function RightBar({ project }) {
 
             <span className="d-block pb-4 h4 text-dark border-bottom border-gray">
                 {name}
-                <Card.Subtitle className="pt-1 mb-2 text-muted">by {exec}</Card.Subtitle>
+                <Card.Subtitle className="pt-1 mb-2 text-muted">by {agency}</Card.Subtitle>
                 <Badge
                     bg="success"
                     className="px-2 py-1 ml-3 mb-1 align-middle"
@@ -40,9 +40,11 @@ export default function RightBar({ project }) {
                 </ProgressBar>
 
                 <span className="pt-1 d-block pb-2 mb-0 font-weight-bold">
-                    Number of location: Latitude: {latitude} , Longitude: {longitude}
+                    Number of location:
+                    <br /> 
+                    Latitude: {latitude} , Longitude: {longitude}
                     <br></br>
-                    Total Cost: {cost}M JPY
+                    Cost: {actual_cost}M JPY / {cost}M JPY (expected)
                 </span>
                 
 
