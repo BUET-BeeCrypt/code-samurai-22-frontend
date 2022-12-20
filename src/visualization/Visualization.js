@@ -17,7 +17,7 @@ export default function Visualization() {
     dateUpto: null,
     title: null,
     agency: null,
-    sort: false
+    sort: null
   })
 
   const { isLoaded } = useLoadScript({
@@ -40,7 +40,7 @@ export default function Visualization() {
       projEnd.setFullYear(projEnd.getFullYear() + proj.timespan)
       return projEnd < filter.dateUpto
     });
-    if (filter.sort) filtered.sort((l, r) => (r.location_coordinates.length - l.location_coordinates.length))
+    if (filter.sort) filtered.sort((l, r) => (r[filter.sort]- l[filter.sort]))
     setFiltered(filtered)
   }, [projects, filter])
 

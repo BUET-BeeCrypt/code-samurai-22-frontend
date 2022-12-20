@@ -72,6 +72,20 @@ export default function LeftBar({projects, project, setProject, filter, setFilte
         setFilter({...filter, sort: e.target.checked})
       }} />
     </div>} */}
+
+  <hr />
+    Sort:&nbsp;
+    {/* <Button variant={`${filter.sort === null ? "primary" : "secondary"}`} size="sm" block onClick={() => { 
+      setFilter({...filter, sort: null})
+    }}>X</Button>
+    &nbsp; &nbsp; */}
+    <Button variant={`${filter.sort === 'rating' ? "primary" : "secondary"}`} size="sm" block onClick={() => { 
+      setFilter({...filter, sort: 'rating'})
+    }}>Rating</Button>
+    &nbsp; &nbsp;
+    <Button variant={`${filter.sort === 'total_rating' ? "primary" : "secondary"}`} size="sm" block onClick={() => { 
+      setFilter({...filter, sort: 'total_rating'})
+    }}># of Ratings</Button>
     
     <hr />
     Download:&nbsp;

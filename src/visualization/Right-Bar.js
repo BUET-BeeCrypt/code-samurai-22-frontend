@@ -1,7 +1,11 @@
 import { createRef, useEffect, useRef, useState } from 'react'
-import { Badge, Button, Card, Form, ProgressBar } from 'react-bootstrap'
+import { Alert, Badge, Button, Card, Form, ProgressBar } from 'react-bootstrap'
 import Rating from 'react-rating'
 import { addComment, getComments, setRating } from '../api'
+
+const dateToString = (date) => {
+    return new Date(date).toJSON().slice(0,10);
+}
 
 export default function RightBar({ project }) {
     const [comments, setComments] = useState([{project_id: 'id', username: 'user', comment: 'comment'}])
@@ -52,6 +56,14 @@ export default function RightBar({ project }) {
                     <ProgressBar striped variant="danger" now={100 - completion} key={2} 
                     label={`${100 - completion}%`}/>
                 </ProgressBar>
+
+                {completion < 99.99 && completion > 0.01 && <>
+                    <Alert variant="warning" className='mt-3'>
+                        Estimated completion date: { dateToString(Date.parse(start_date) + 100 / completion * (Date.now() - Date.parse(start_date)))}
+                        <br />
+                        Estimated Cost: {Number(100 / completion * actual_cost).toFixed(2)}M JPY
+                    </Alert>
+                </>}
 
                 <span className="pt-1 d-block pb-2 mb-0 font-weight-bold">
                     Number of location:
