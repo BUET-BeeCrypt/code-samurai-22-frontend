@@ -1,13 +1,23 @@
-import { useState } from 'react'
-import { Badge, Card, ProgressBar } from 'react-bootstrap'
+import { createRef, useEffect, useRef, useState } from 'react'
+import { Badge, Button, Card, Form, ProgressBar } from 'react-bootstrap'
 import Rating from 'react-rating'
+import { addComment, getComments, setRating } from '../api'
 
 export default function RightBar({ project }) {
     const [comments, setComments] = useState([{project_id: 'id', username: 'user', comment: 'comment'}])
 
+    const commentRef = useRef()
+
+    useEffect(() => {
+        if (project)
+            getComments(project.project_id).then( data => {
+                setComments(data)
+            })
+    }, [project])
+
     if (!project)
         return <> Select a project to see details </>
-    const { name,location,latitude,longitude,exec,cost,timespan,project_id,goal,start_date,completion,actual_cost, agency } = project
+    const { name,location,latitude,longitude,exec,cost,timespan,project_id,goal,start_date,completion,actual_cost, agency, total_rating, rating } = project
     return <>
         <div className="">
             <span className="d-block pb-2 mb-0 h6 text-uppercase text-info font-weight-bold">
@@ -54,16 +64,36 @@ export default function RightBar({ project }) {
         </div>
         <hr />
         <div>
-            Current Rating: Rating, <br /> 
+            Rating: {rating} avg from {total_rating} <br /> 
             Provide your rating - <br />
             <Rating start={0} stop={5} step={1} onChange={e => {
-                console.log(e)
+                setRating(project_id, e).then(res => {
+                    console.log(res)
+                })
             }} />
             <hr />
-            
+
+            <Form.Control
+                ref={commentRef}
+                as="textarea"
+                placeholder="Leave a comment here"
+                style={{ height: '100px' }}
+            />
+
+            <Button variant="primary" className={'btn-sm mt-2'} onClick={() => {
+                if (commentRef.current.value) {
+                    addComment(project_id, commentRef.current.value).then(res => {
+                        setComments([...comments, {project_id, username: 'user', comment: commentRef.current.value}])
+                        commentRef.current.value = ''
+                    });
+                }
+            }}>Comment</Button>
+
+            <hr />
             Comments: <br />
+            
             {comments.map(({project_id, username, comment}) => (
-                <>{project_id}</>
+                <>{username} : {comment} <br /></>
             ))}
 
         </div>

@@ -22,6 +22,17 @@ export const setRating = async (project_id, rating) => {
     return data.data
 }
 
+export const addComment = async (project_id, comment) => {
+    const data = await axios.post(`${API_URL}/projects/comment`, { project_id, comment })
+    return data.data
+}
+
+export const getComments = async (project_id) => {
+    const data = await axios.get(`${API_URL}/projects/comment/${project_id}`)
+    return data.data.data
+}
+
+
 axios.interceptors.request.use( config => {
     const jwt = localStorage.getItem('token')
     if (jwt && config.url.includes(API_URL))
