@@ -12,6 +12,11 @@ export const login = async (username, password) => {
     return data.data
 }
 
+export const register = async (username, password) => {
+    const data = await axios.post(`${API_URL}/auth/register`, { username, password })
+    return data.data
+}
+
 export const setRating = async (project_id, rating) => {
     const data = await axios.post(`${API_URL}/projects/rating`, { project_id, rating })
     return data.data
