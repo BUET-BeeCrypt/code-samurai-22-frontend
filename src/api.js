@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { Axios } from 'axios'
 
 const API_URL = `https://code-samurai-22-backend.onrender.com/api`
 
@@ -11,3 +11,10 @@ export const login = async (username, password) => {
     const data = await axios.post(`${API_URL}/auth/login`, { username, password })
     return data.data
 }
+
+axios.interceptors.request.use( config => {
+    const jwt = localStorage.getItem('token')
+    if (jwt && config.url.includes(API_URL))
+        config.headers.Authorization = `${jwt}`
+    return config
+})

@@ -76,7 +76,15 @@ export default function App() {
                                 <Nav.Link href="#" onClick={changeTab} data-tab='home'>Approve</Nav.Link>
                             </>
                         }
-
+                        
+                        {userType !== null &&
+                            <>
+                                <Nav.Link href="#" onClick={() => {
+                                    localStorage.removeItem('token');
+                                    window.location.reload();
+                                }} data-tab='home'>Log Out</Nav.Link>
+                            </>
+                        }
 
                         {/* <Nav.Link href="#" onClick={changeTab} data-tab='verify'>
                             Verify Document
