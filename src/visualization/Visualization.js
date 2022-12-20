@@ -34,8 +34,12 @@ export default function Visualization() {
     let filtered = projects
     if (filter.exec) filtered = filtered.filter(proj => (proj.exec === filter.exec));
     if (filter.agency) filtered = filtered.filter(proj => (proj.affiliated_agency === filter.agency));
-    if (filter.title) filtered = filtered.filter(proj => (proj.project_name.toLowerCase().includes(filter.title.toLowerCase())))
-    if (filter.dateUpto) filtered = filtered.filter(proj => (Date.parse(proj.project_completion_time) < filter.dateUpto));
+    if (filter.title) filtered = filtered.filter(proj => (proj.name.toLowerCase().includes(filter.title.toLowerCase())))
+    if (filter.dateUpto) filtered = filtered.filter(proj => {
+      const projEnd = new Date(Date.parse(proj.start_date.substr(0, 10)));
+      projEnd.setFullYear(projEnd.getFullYear() + proj.timespan)
+      return projEnd < filter.dateUpto
+    });
     if (filter.sort) filtered.sort((l, r) => (r.location_coordinates.length - l.location_coordinates.length))
     setFiltered(filtered)
   }, [projects, filter])

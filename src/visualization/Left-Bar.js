@@ -20,29 +20,29 @@ export default function LeftBar({projects, project, setProject, filter, setFilte
   }, [value])
 
   return <>
-    <Form.Check type="checkbox" label='Show admin options' onChange={e => {setAdmin(e.target.checked)}} />
-    <hr />
+    {/* <Form.Check type="checkbox" label='Show admin options' onChange={e => {setAdmin(e.target.checked)}} /> */}
+    {/* <hr /> */}
     <div style={{overflowX: 'scroll', padding: '5px', width: 'auto', whiteSpace: 'nowrap'}}>
       {/* <ButtonGroup> */}
         <Button variant={filter.exec ? 'secondary' : 'primary'} 
           className={'btn-sm'}
-          onClick={e => {setFilter({...filter, exec: null})}}>All Exec</Button>
+          onClick={e => {setFilter({...filter, exec: null})}}>All Agency</Button>
         {[...exec].map(category => <Button 
           variant={filter.exec !== category ? 'secondary' : 'primary'}
-          className={'btn-sm'}
+          className={'btn-sm'} style={{marginLeft: '5px'}}
           onClick={e => {setFilter({...filter, exec: category})}}>{category}</Button>)}
       {/* </ButtonGroup> */}
     </div>
+    <Form.Control size="sm" type="text" placeholder="Search by Text" className="mt-4" onChange={e => {
+          setFilter({...filter, title: e.target.value})
+      }}/>
     <div style={{paddingTop: '5px', paddingBottom: '5px'}} className='mt-4'>
       Upto Date: <DatePicker onChange={onDateChange} value={value} className={'date-picker'} />
     </div>
     
-    {admin && <div className="py-3">
+    {/* {admin && <div className="py-3">
       <hr />
       <h5>Admin: </h5>
-      <Form.Control size="sm" type="text" placeholder="Search by Text" className="mt-4" onChange={e => {
-          setFilter({...filter, title: e.target.value})
-      }}/>
       <br />
       <div style={{overflowX: 'scroll', width: '100%', whiteSpace: 'nowrap'}}>
         <Button variant={filter.agency ? 'secondary' : 'primary'} 
@@ -57,7 +57,7 @@ export default function LeftBar({projects, project, setProject, filter, setFilte
       <Form.Check type="checkbox" label='Sort by number of locations' onChange={e => {
         setFilter({...filter, sort: e.target.checked})
       }} />
-    </div>}
+    </div>} */}
     
     <hr />
 
