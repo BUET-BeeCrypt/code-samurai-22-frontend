@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
 
 export default function App() {
     const [userType, setUserType] = useState(null);
@@ -66,7 +68,11 @@ export default function App() {
             <Container className='p-4 my-4'>
                 {userType === null && <>
                     {selectedTab === "home" && <>
-                        Login
+                        <Login />
+                    </>}
+
+                    {selectedTab === "register" && <>
+                        <Register />
                     </>}
                 </>}
             </Container>
