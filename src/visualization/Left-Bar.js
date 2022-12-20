@@ -2,6 +2,20 @@ import { useEffect, useState } from "react";
 import { Button, Form, ListGroup } from "react-bootstrap";
 import DatePicker from 'react-date-picker';
 
+function ConvertToCSV(json) {
+  if (json.length === 0) return ''
+  var fields = Object.keys(json[0])
+var replacer = function(key, value) { return value === null ? '' : value } 
+var csv = json.map(function(row){
+  return fields.map(function(fieldName){
+    return JSON.stringify(row[fieldName], replacer)
+  }).join(',')
+})
+csv.unshift(fields.join(',')) // add header column
+ csv = csv.join('\r\n');
+ return csv
+}
+
 export default function LeftBar({projects, project, setProject, filter, setFilter}) {
 
   const exec = new Set()
@@ -60,6 +74,25 @@ export default function LeftBar({projects, project, setProject, filter, setFilte
     </div>} */}
     
     <hr />
+    Download:&nbsp;
+    <a id="downloadAnchorElem" style={{display:"none"}}></a>
+    <Button variant="primary" size="sm" block onClick={() => { 
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projects));
+      const dlAnchorElem = document.getElementById('downloadAnchorElem');
+      dlAnchorElem.setAttribute("href", dataStr);
+      dlAnchorElem.setAttribute("download", "filtered-data.json");
+      dlAnchorElem.click();
+    }}>JSON</Button>
+    &nbsp; &nbsp;
+    <Button variant="primary" size="sm" block onClick={() => { 
+      const dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(ConvertToCSV(projects));
+      const dlAnchorElem = document.getElementById('downloadAnchorElem');
+      dlAnchorElem.setAttribute("href", dataStr);
+      dlAnchorElem.setAttribute("download", "filtered-data.csv");
+      dlAnchorElem.click();
+    }}>CSV</Button>
+
+    <hr />
 
     <ListGroup>
       { projects.map(p => <ListGroup.Item 
@@ -70,5 +103,6 @@ export default function LeftBar({projects, project, setProject, filter, setFilte
         </ListGroup.Item>) 
       }
     </ListGroup>
+
   </>
 }

@@ -1,4 +1,4 @@
-import axios, { Axios } from 'axios'
+import axios from 'axios'
 
 const API_URL = `https://code-samurai-22-backend.onrender.com/api`
 
@@ -9,6 +9,11 @@ export const getAllProjects = async () => {
 
 export const login = async (username, password) => {
     const data = await axios.post(`${API_URL}/auth/login`, { username, password })
+    return data.data
+}
+
+export const setRating = async (project_id, rating) => {
+    const data = await axios.post(`${API_URL}/projects/rating`, { project_id, rating })
     return data.data
 }
 

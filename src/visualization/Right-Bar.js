@@ -1,11 +1,15 @@
+import { useState } from 'react'
 import { Badge, Card, ProgressBar } from 'react-bootstrap'
+import Rating from 'react-rating'
 
 export default function RightBar({ project }) {
+    const [comments, setComments] = useState([{project_id: 'id', username: 'user', comment: 'comment'}])
+
     if (!project)
         return <> Select a project to see details </>
     const { name,location,latitude,longitude,exec,cost,timespan,project_id,goal,start_date,completion,actual_cost, agency } = project
     return <>
-        <div className="position-relative">
+        <div className="">
             <span className="d-block pb-2 mb-0 h6 text-uppercase text-info font-weight-bold">
                 {exec} - {location}
             </span>
@@ -46,9 +50,22 @@ export default function RightBar({ project }) {
                     <br></br>
                     Cost: {actual_cost}M JPY / {cost}M JPY (expected)
                 </span>
-                
-
             </article>
+        </div>
+        <hr />
+        <div>
+            Current Rating: Rating, <br /> 
+            Provide your rating - <br />
+            <Rating start={0} stop={5} step={1} onChange={e => {
+                console.log(e)
+            }} />
+            <hr />
+            
+            Comments: <br />
+            {comments.map(({project_id, username, comment}) => (
+                <>{project_id}</>
+            ))}
+
         </div>
     </>
 }
