@@ -4,6 +4,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import AddProposal from "./proposal/AddProposal";
 import PropVisualization from "./proposal/PropVisualization";
+import Suggestion from "./proposal/Suggestions";
 import Visualization from "./visualization/Visualization";
 
 export function parseJwt (token) {
@@ -116,6 +117,9 @@ export default function App() {
                 {userType === "EXEC" && <>
                     {selectedTab === "add" && <>
                         <AddProposal />
+                    </>}
+                    {selectedTab === "suggestion" && <>
+                        <Suggestion />
                     </>}
                 </>}
 

@@ -42,6 +42,11 @@ export const addProposal = async (proposal) => {
     return data.data
 }
 
+export const getSuggestions = async () => {
+    const data = await axios.get(`${API_URL}/optimization/all`)
+    return data.data
+}
+
 
 axios.interceptors.request.use( config => {
     const jwt = localStorage.getItem('token')
