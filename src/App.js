@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import AddProposal from "./proposal/AddProposal";
+import PropVisualization from "./proposal/PropVisualization";
 import Visualization from "./visualization/Visualization";
 
-function parseJwt (token) {
+export function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
@@ -41,7 +43,7 @@ export default function App() {
                             window.location.reload();
                         }}
                     >
-                        TH-App
+                        TApp
                     </Navbar.Brand>
                     <Nav className="me-auto">
                         {userType === "APP" &&
@@ -61,19 +63,20 @@ export default function App() {
                         {userType === "EXEC" &&
                             <>
                                 <Nav.Link href="#" onClick={changeTab} data-tab='home'>Proposals</Nav.Link>
-                                <Nav.Link href="#" onClick={changeTab} data-tab='shared'>Add Proposal</Nav.Link>
+                                <Nav.Link href="#" onClick={changeTab} data-tab='suggestion'>Suggested Timeframe</Nav.Link>
+                                <Nav.Link href="#" onClick={changeTab} data-tab='add'>Add Proposal</Nav.Link>
                             </>
                         }
 
                         {userType === "MOP" &&
                             <>
-                                <Nav.Link href="#" onClick={changeTab} data-tab='home'>Approve</Nav.Link>
+                                <Nav.Link href="#" onClick={changeTab} data-tab='home'>Proposals</Nav.Link>
                             </>
                         }
 
                         {userType === "ECNEC" &&
                             <>
-                                <Nav.Link href="#" onClick={changeTab} data-tab='home'>Approve</Nav.Link>
+                                <Nav.Link href="#" onClick={changeTab} data-tab='home'>Proposals</Nav.Link>
                             </>
                         }
                         
@@ -107,6 +110,18 @@ export default function App() {
                 {userType === "APP" && <>
                     {selectedTab === "home" && <>
                         <Visualization />
+                    </>}
+                </>}
+
+                {userType === "EXEC" && <>
+                    {selectedTab === "add" && <>
+                        <AddProposal />
+                    </>}
+                </>}
+
+                {userType === "MOP" && <>
+                    {selectedTab === "home" && <>
+                        <PropVisualization />
                     </>}
                 </>}
             </Container>

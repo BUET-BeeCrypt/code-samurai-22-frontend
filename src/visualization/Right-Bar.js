@@ -8,7 +8,7 @@ const dateToString = (date) => {
 }
 
 export default function RightBar({ project }) {
-    const [comments, setComments] = useState([{project_id: 'id', username: 'user', comment: 'comment'}])
+    const [comments, setComments] = useState([])
 
     const commentRef = useRef()
 
@@ -61,7 +61,7 @@ export default function RightBar({ project }) {
                     <Alert variant="warning" className='mt-3'>
                         Estimated completion date: { dateToString(Date.parse(start_date) + 100 / completion * (Date.now() - Date.parse(start_date)))}
                         <br />
-                        Estimated Cost: {Number(100 / completion * actual_cost).toFixed(2)}M JPY
+                        Estimated Cost: {Number(100 / completion * actual_cost).toFixed(2)} Crore BDT
                     </Alert>
                 </>}
 
@@ -70,7 +70,7 @@ export default function RightBar({ project }) {
                     <br /> 
                     Latitude: {latitude} , Longitude: {longitude}
                     <br></br>
-                    Cost: {actual_cost}M JPY / {cost}M JPY (expected)
+                    Cost: {actual_cost}Crore BDT / {cost} Crore BDT (expected)
                 </span>
             </article>
         </div>

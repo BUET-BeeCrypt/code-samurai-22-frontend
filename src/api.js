@@ -7,6 +7,11 @@ export const getAllProjects = async () => {
     return data.data
 }
 
+export const getAllProposals = async () => {
+    const data = await axios.get(`${API_URL}/projects/proposals`)
+    return data.data.data
+}
+
 export const login = async (username, password) => {
     const data = await axios.post(`${API_URL}/auth/login`, { username, password })
     return data.data
@@ -30,6 +35,11 @@ export const addComment = async (project_id, comment) => {
 export const getComments = async (project_id) => {
     const data = await axios.get(`${API_URL}/projects/comment/${project_id}`)
     return data.data.data
+}
+
+export const addProposal = async (proposal) => {
+    const data = await axios.post(`${API_URL}/projects/proposal`, proposal)
+    return data.data
 }
 
 
